@@ -1,36 +1,53 @@
 from glob import glob
+from datetime import datetime
 
 from fastapi import APIRouter
 from fastui import FastUI, AnyComponent, components as c
+from fastui.events import GoToEvent
+from pydantic import BaseModel
+import frontmatter
 
 from .shared import wrap_in_page
 
 router = APIRouter()
 
 
-def get_posts(posts_path: str) -> list[str]:
-    globbed = glob(f"{posts_path}/*.md")
-    print(globbed)
-    return globbed
+class PostModel(BaseModel):
+    title: str
+    date: datetime | None = None
+    category: list[str] | None = None
+    content: str
 
 
-def read_posts(posts_path: str, post_name: str) -> str:
-    ret = ""
-    with open(f"{posts_path}/{post_name}.md", "r") as f:
-        ret = f.read()
-    return ret
+def parse_mdx(post_path: str) -> PostModel:
+    with open(post_path) as f:
+        metadata, content = frontmatter.parse(f.read())
+
+    return PostModel(
+        title=metadata.get("title", "Untitled"),
+        date=metadata.get("date", None),
+        category=metadata.get("category", None),
+        content=content,
+    )
 
 
 @router.get("", response_model=FastUI, response_model_exclude_none=True)
 def main_page() -> list[AnyComponent]:
-    posts_path = "./posts"
-    posts = get_posts(posts_path)
-    post_titles = list(map(lambda path: path.split("/")[-1][:-3], posts))
+    posts_path = "./contents/posts"
+    posts_list = glob(posts_path + "/*.md*")
+    posts = [parse_mdx(post_path) for post_path in posts_list]
 
     return wrap_in_page(
         c.Page(
             components=[
-                c.Markdown(text=read_posts(posts_path, post_titles[0])),
+                c.Div(
+                    components=[
+                        c.Heading(text=post.title),
+                        c.Markdown(text=post.content),
+                    ],
+                    class_name="border-bottom mt-3 pt-1",
+                )
+                for post in posts
             ]
         ),
         title="Post",

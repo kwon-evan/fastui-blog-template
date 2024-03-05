@@ -1,11 +1,11 @@
-+++
-title = "Page 2"
-weight = 2
-sort_by = "weight"
-insert_anchor_links = "right"
-+++
+---
+title: "Page 1"
+date: "2020-01-03"
+tags: ["test", "page"]
+---
 
 Testing every `elements` you can find in [CommonMark](http://commonmark.org).
+
 <!-- more -->
 
 Quisque viverra a eros id auctor. Proin id nibh ut nisl dignissim pellentesque et ac mi. Nullam mattis urna quis consequat bibendum. Donec pretium dui elit, a semper purus tristique et. Mauris euismod nisl eu vehicula facilisis. Maecenas facilisis non massa non scelerisque. Integer malesuada cursus erat eu viverra. Duis ligula mi, eleifend vel justo id, laoreet porttitor ex. Etiam ultricies lacus lorem, sed aliquam nulla blandit in. Maecenas vel facilisis neque, vitae fringilla eros. In justo nibh, pellentesque sed faucibus nec, varius sit amet risus.
@@ -52,10 +52,10 @@ fn main() {
 
 ## A table
 
-| a  | table | in | markdown | !!                              |
-|----|-------|----|----------|---------------------------------|
-| 1  | 2     | 3  | 4        | 5                               |
-| 1  | we    | ew | we       | with a longish column inside it |
+| a   | table | in  | markdown | !!                              |
+| --- | ----- | --- | -------- | ------------------------------- |
+| 1   | 2     | 3   | 4        | 5                               |
+| 1   | we    | ew  | we       | with a longish column inside it |
 
 ## An image
 

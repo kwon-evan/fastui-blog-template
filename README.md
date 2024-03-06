@@ -1,8 +1,7 @@
 # FastUI Blog Template
 
-1. activate your virtual environment
-   example:
-
+1. Activate your virtual environment.
+   
 ```shell
 # conda
 conda create -n fastui-blog python=3.10
@@ -15,12 +14,12 @@ pyenv virtualenv 3.10 fastui-blog
 pyenv activate fastui-blog
 ```
 
-2. copy `.env.example` to `.env`
+2. Copy `.env.example` to `.env`
 ```shell
 cp .env.example .env
 ```
 
-3. run `run.sh`
+3. Run `run.sh`
 ```shell
 sh run.sh
 ```

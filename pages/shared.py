@@ -1,5 +1,7 @@
 from __future__ import annotations as _annotations
 
+import os
+
 from fastui import AnyComponent
 from fastui import components as c
 from fastui.events import GoToEvent
@@ -8,10 +10,11 @@ from fastui.events import GoToEvent
 def wrap_in_page(
     *components: AnyComponent, title: str | None = None
 ) -> list[AnyComponent]:
+    user_name = os.getenv("FASTUI_BLOG_USER_NAME")
     return [
-        c.PageTitle(text=f"Kwon Evan's Blog — {title}" if title else "Home"),
+        c.PageTitle(text=f"{user_name}'s Blog — {title}" if title else "Home"),
         c.Navbar(
-            title="Kwon Evan",
+            title=user_name,
             title_event=GoToEvent(url="/"),
             start_links=[
                 c.Link(
@@ -33,11 +36,17 @@ def wrap_in_page(
         ),
         c.Page(
             components=[
+                *((c.Heading(text=title),) if title else ()),
                 *components,
             ],
         ),
         c.Footer(
-            extra_text="© 2024 Kwon Evan. All rights reserved.",
+            extra_text=f"© 2024 {user_name}. All rights reserved.",
             links=[],
         ),
     ]
+
+
+def read_md(path: str) -> str:
+    with open(path, "r") as f:
+        return f.read()

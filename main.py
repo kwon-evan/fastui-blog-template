@@ -1,5 +1,6 @@
 from __future__ import annotations as _annotations
 
+import os
 import sys
 from contextlib import asynccontextmanager
 
@@ -8,10 +9,13 @@ from fastapi.responses import HTMLResponse, PlainTextResponse
 from fastui import prebuilt_html
 from fastui.dev import dev_fastapi_app
 from httpx import AsyncClient
+from dotenv import load_dotenv
 
 from pages.index import router as index_router
 from pages.about import router as about_router
 from pages.posts import router as posts_router
+
+load_dotenv()
 
 
 @asynccontextmanager
@@ -45,4 +49,6 @@ async def favicon_ico() -> str:
 
 @app.get("/{path:path}")
 async def html_landing() -> HTMLResponse:
-    return HTMLResponse(prebuilt_html(title="Kwon Evan's Blog"))
+    return HTMLResponse(
+        prebuilt_html(title=f"{os.getenv('FASTUI_BLOG_USER_NAME')}'s Blog")
+    )

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastui import FastUI, AnyComponent, components as c
 
-from .shared import wrap_in_page
+from .shared import wrap_in_page, read_md
 
 router = APIRouter()
 
@@ -11,7 +11,7 @@ def main_page() -> list[AnyComponent]:
     return wrap_in_page(
         c.Page(
             components=[
-                c.Markdown(text="about page"),
+                c.Markdown(text=read_md("./content/about.md")),
             ]
         ),
         title="About",
